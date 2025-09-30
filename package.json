@@ -1,0 +1,20 @@
+{
+  "name": "webii-spring-boot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "npx @tailwindcss/cli -i ./src/main/resources/static/css/tailwind.css -o ./src/main/resources/static/css/styles.css",
+    "dev": "npx @tailwindcss/cli -i ./src/main/resources/static/css/tailwind.css -o ./src/main/resources/static/css/styles.css --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "autoprefixer": "^10.4.21",
+    "postcss-cli": "^11.0.1"
+  },
+  "dependencies": {
+    "tailwindcss": "^4.1.13"
+  }
+}

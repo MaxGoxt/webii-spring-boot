@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8">
+    <title>Página Inicial - Cursos IFSul</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+  </head>
+  <body class="bg-gray-50 min-h-screen">
+
+    <nav class="bg-white shadow-md sticky top-0 z-10">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+          
+          <div class="flex items-center">
+            <a href="/" class="text-2xl font-bold text-indigo-600 hover:text-indigo-800">Cursos IFSul</a>
+          </div>
+
+          <div class="flex items-center space-x-6">
+            
+            <div class="hidden md:block">
+              <ul class="flex space-x-4">
+                <li th:each="cat : ${categorias}">
+                  <a th:text="${cat.nome}"
+                    th:href="@{/curso/categoria/{id}(id=${cat.id})}"
+                    class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out">
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            <form method="post" th:action="@{/curso/listar}" class="flex items-center space-x-2">
+              <input type="search" name="busca" placeholder="Buscar curso..."
+                class="px-3 py-1.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm w-40 sm:w-56"
+              >
+              <button type="submit"
+                class="bg-indigo-600 text-white px-3 py-1.5 rounded-lg text-sm font-medium hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition duration-150 ease-in-out"
+              >
+                Buscar
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </nav>
+    
+    <main class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+      
+      <h2 class="text-3xl font-extrabold text-gray-900 mb-8 border-b pb-2">Cursos em Destaque</h2>
+      
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+        
+        <div th:each="curso : ${cursos}" 
+          class="bg-white rounded-xl shadow-lg overflow-hidden transition duration-300 ease-in-out hover:shadow-xl hover:scale-[1.02] transform"
+        >
+          
+          <div class="h-48 overflow-hidden">
+            <img th:src="@{/img/{file}(file=${curso.img})}" alt="Imagem do curso"
+              class="w-full h-full object-cover"
+            >
+          </div>
+          
+          <div class="p-5">
+            <h5 th:text="${curso.nome}" class="text-xl font-semibold text-gray-900 mb-2 truncate"></h5>
+            <p th:text="${curso.descricao}" 
+              class="text-gray-600 text-sm mb-4 line-clamp-3"
+            ></p>
+            
+            <a th:href="@{/curso/{id}(id=${curso.id})}"
+              class="inline-block bg-indigo-500 text-white text-sm font-medium px-4 py-2 rounded-lg hover:bg-indigo-600 transition duration-150 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            >
+              Ver detalhes
+            </a>
+          </div>
+        </div>
+        
+      </div>
+    </main>
+  </body>
+</html>

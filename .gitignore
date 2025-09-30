@@ -1,4 +1,6 @@
 data
+node_modules
+src/main/resources/static/img
 
 HELP.md
 target/

@@ -27,29 +27,28 @@ import jakarta.validation.Valid;
 public class CategoriaController {
 	@Autowired
 	CategoriaRepository repository;
-	
+
 	@GetMapping("/inserir")
 	public String inserir() {
 		return "categoria/inserir";
 	}
-	
+
 	@PostMapping("/inserir")
 	public String inserido(
-			@ModelAttribute @Valid CategoriaDTO dto, 
-			BindingResult result, 
+			@ModelAttribute @Valid CategoriaDTO dto,
+			BindingResult result,
 			RedirectAttributes msg) {
-		if(result.hasErrors()) {
+		if (result.hasErrors()) {
 			msg.addFlashAttribute("erro", "Erro ao inserir!");
 			return "redirect:/categoria/listar";
 		}
-		var categoria = new Categoria();		
+		var categoria = new Categoria();
 		BeanUtils.copyProperties(dto, categoria);
 		repository.save(categoria);
-		msg.addFlashAttribute("ok", "Usuário inserido!");
+		msg.addFlashAttribute("ok", "Categoria inserida!");
 		return "redirect:/categoria/listar";
 	}
-	
-	
+
 	@GetMapping("/listar")
 	public ModelAndView listar() {
 		ModelAndView mv = new ModelAndView("/categoria/listar");
@@ -57,51 +56,50 @@ public class CategoriaController {
 		mv.addObject("categorias", lista);
 		return mv;
 	}
+
 	@PostMapping("/listar")
-	public ModelAndView listarcategoriasFind
-	(@RequestParam("busca") String buscar){
+	public ModelAndView listarcategoriasFind(@RequestParam("busca") String buscar) {
 		ModelAndView mv = new ModelAndView("categoria/listar");
-		List<Categoria> lista = 
-				repository.findCategoriaByNomeLike("%"+buscar+"%");
+		List<Categoria> lista = repository.findCategoriaByNomeLike("%" + buscar + "%");
 		mv.addObject("categorias", lista);
 		return mv;
 	}
-	
+
 	@GetMapping("/excluir/{id}")
-	public String excluir(@PathVariable(value="id") int id) {
-		Optional<Categoria> categoria= repository.findById(id);
-		if(categoria.isEmpty()) {
-			return "redirect:/categoria/listar";			
+	public String excluir(@PathVariable(value = "id") int id) {
+		Optional<Categoria> categoria = repository.findById(id);
+		if (categoria.isEmpty()) {
+			return "redirect:/categoria/listar";
 		}
 		repository.deleteById(id);
-		return "redirect:/categoria/listar";					
+		return "redirect:/categoria/listar";
 	}
+
 	@GetMapping("/editar/{id}")
-	public ModelAndView editar(@PathVariable(value="id") int id) {
+	public ModelAndView editar(@PathVariable(value = "id") int id) {
 		ModelAndView mv = new ModelAndView("/categoria/editar");
-		Optional<Categoria> categoria= repository.findById(id);
+		Optional<Categoria> categoria = repository.findById(id);
 		mv.addObject("id", categoria.get().getId());
 		mv.addObject("nome", categoria.get().getNome());
 		return mv;
 	}
+
 	@PostMapping("/editar/{id}")
 	public String editado(
-			@ModelAttribute @Valid CategoriaDTO dto, 
-			BindingResult result, 
+			@ModelAttribute @Valid CategoriaDTO dto,
+			BindingResult result,
 			RedirectAttributes msg,
-			@PathVariable(value="id") int id) {
-		if(result.hasErrors()) {
+			@PathVariable(value = "id") int id) {
+		if (result.hasErrors()) {
 			msg.addFlashAttribute("erro", "Erro ao editar!");
 			return "redirect:/categoria/listar";
 		}
-		Optional<Categoria> categoria= repository.findById(id);
+		Optional<Categoria> categoria = repository.findById(id);
 		var categoria2 = categoria.get();
 		BeanUtils.copyProperties(dto, categoria2);
 		repository.save(categoria2);
-		msg.addFlashAttribute("sucesso", "Usuário editado!");
+		msg.addFlashAttribute("sucesso", "Categoria editada!");
 		return "redirect:/categoria/listar";
 	}
-	
+
 }
-
-

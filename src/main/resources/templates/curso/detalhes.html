@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${curso.nome}"></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+
+<body class="bg-gray-50 min-h-screen">
+
+  <header th:replace="~{fragments/navbar :: navbar}"></header>
+
+    <main class="w-full max-w-4xl bg-white rounded-xl shadow-2xl overflow-hidden mx-auto mt-[1%]">
+
+        <div class="relative h-64 md:h-80 bg-gray-200">
+            <img th:src="@{/curso/imagem/{file}(file=${curso.img})}" alt="Imagem do curso"
+                class="w-full h-full object-cover"
+             />
+            <div class="absolute inset-0 bg-black opacity-60 flex items-end p-6">
+                <h1 class="text-4xl font-extrabold text-white opacity-100" th:text="${curso.nome}">Nome do Curso</h1>
+            </div>
+        </div>
+
+        <div class="p-6 md:p-10">
+
+            <div class="mb-8">
+                <h2 class="text-2xl font-bold text-gray-800 border-b pb-2 mb-4">Sobre o Curso</h2>
+                <p class="text-gray-600 leading-relaxed" th:text="${curso.descricao}">
+                    Descripción detallada del curso...
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 border-t pt-8">
+
+                <div>
+                    <h3 class="text-xl font-bold text-indigo-600 mb-4">Detalhes</h3>
+
+                    <div class="mb-3">
+                        <p class="text-sm font-medium text-gray-500">Data de Início:</p>
+                        <p class="text-lg font-semibold text-gray-800"
+                            th:text="${#temporals.format(curso.data_inicio, 'dd MMMM yyyy HH:mm')}">15/09/2025 09:00</p>
+                    </div>
+
+                    <div class="mb-3">
+                        <p class="text-sm font-medium text-gray-500">Data Final:</p>
+                        <p class="text-lg font-semibold text-gray-800"
+                            th:text="${#temporals.format(curso.data_final, 'dd MMMM yyyy HH:mm')}">15/10/2025 18:00</p>
+                    </div>
+
+                    <div>
+                        <p class="text-sm font-medium text-gray-500">Categoria:</p>
+                        <p class="text-lg font-semibold text-purple-600" th:text="${curso.categoria.nome}">Programação
+                        </p>
+                    </div>
+                </div>
+
+                <div class="border-t md:border-t-0 md:border-l md:pl-8 pt-6 md:pt-0">
+                    <h3 class="text-xl font-bold text-indigo-600 mb-4">Ministrado por</h3>
+
+                    <div class="flex items-center space-x-4">
+                        <div
+                            class="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600 font-bold text-xl">
+                            <img th:src="@{/professor/imagem/{imagem}(imagem=${curso.professor.imagem})}"
+                                alt="Imagem do Professor"
+                                class="h-16 w-16 object-cover rounded-full shadow-md border-2 border-gray-200" />
+                        </div>
+
+                        <div>
+                            <p class="text-lg font-bold text-gray-900" th:text="${curso.professor.nome}">Profesor
+                                Ejemplo</p>
+                            <p class="text-sm text-gray-500" th:text="${curso.professor.email}">professor@ifsul.edu</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </main>
+</body>
+
+</html>

@@ -67,7 +67,7 @@ public class ProfessorController {
 			System.out.println("erro imagem");
 		}
 		repository.save(professor);
-		msg.addFlashAttribute("ok", "Usuário inserido!");
+		msg.addFlashAttribute("ok", "Professor inserido!");
 		return "redirect:/professor/listar";
 	}
 	
@@ -90,12 +90,6 @@ public class ProfessorController {
 		List<Professor> lista = repository.findAll();
 		mv.addObject("professores", lista);
 		return mv;
-	}
-
-	@GetMapping("/getList")
-	public List<Professor> getList() {
-		List<Professor> lista = repository.findAll();
-		return lista;
 	}
 	
 	@PostMapping("/listar")
@@ -140,7 +134,7 @@ public class ProfessorController {
 		var professor2 = professor.get();
 		BeanUtils.copyProperties(dto, professor2);
 		repository.save(professor2);
-		msg.addFlashAttribute("sucesso", "Usuário editado!");
+		msg.addFlashAttribute("sucesso", "Professor editado!");
 		return "redirect:/professor/listar";
 	}
 	

@@ -1,0 +1,58 @@
+<nav class="bg-white shadow-md" th:fragment="navbar">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-16">
+
+      <div class="flex items-center">
+        <a th:href="@{/}" class="text-2xl font-bold text-indigo-600 hover:text-indigo-800">Cursos IFSul</a>
+      </div>
+
+      <div class="flex items-center space-x-6">
+
+        <a
+          href="/professor/listar"
+          class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out flex items-center cursor-pointer focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+          Professores
+      </a>
+
+        <div class="hidden md:block">
+
+          <details class="relative">
+            <summary
+              class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out flex items-center cursor-pointer focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+              Categorias
+              <svg class="ml-1 h-5 w-5 transform transition-transform duration-200 details-arrow" viewBox="0 0 20 20"
+                fill="currentColor">
+                <path fill-rule="evenodd"
+                  d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.25 4.25a.75.75 0 01-1.06 0L5.21 8.27a.75.75 0 01.02-1.06z"
+                  clip-rule="evenodd" />
+              </svg>
+            </summary>
+
+            <div
+              class="absolute right-0 mt-3 w-48 rounded-md shadow-xl bg-white ring-1 ring-black ring-opacity-5 z-20 origin-top-right">
+              <div class="py-1">
+                <a th:href="@{/categoria/listar}"
+                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-indigo-600">
+                  Todas as Categorias
+                </a>
+
+                <a th:each="cat : ${categorias}" th:text="${cat.nome}"
+                  th:href="@{/curso/listar?categoria={id}(id=${cat.id})}"
+                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-indigo-600">
+                </a>
+              </div>
+            </div>
+          </details>
+        </div>
+        <form method="post" th:action="@{/curso/listar}" class="flex items-center space-x-2">
+          <input type="search" name="busca" placeholder="Buscar curso..."
+            class="px-3 py-1.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm w-40 sm:w-56">
+          <button type="submit"
+            class="bg-indigo-600 text-white px-3 py-1.5 rounded-lg text-sm font-medium hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition duration-150 ease-in-out">
+            Buscar
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</nav>

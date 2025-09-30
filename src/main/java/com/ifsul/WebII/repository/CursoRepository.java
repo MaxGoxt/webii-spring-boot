@@ -11,6 +11,7 @@ import com.ifsul.WebII.model.Curso;
 @Repository
 public interface CursoRepository extends JpaRepository<Curso, Integer>{
 	List<Curso> findCursoByNomeLike(String nome);
+	List<Curso> findByCategoriaId(int id);
 	List<Curso> findAll();
-	Optional<Curso> findById(Long id);
+	Optional<Curso> findById(int id);
 }

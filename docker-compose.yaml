@@ -37,6 +37,15 @@ services:
     networks:
       - webii
 
+  tailwind:
+    image: node:22-alpine
+    container_name: tailwind-webii
+    volumes:
+      - .:/home/app
+      - ./src/main/resources/static/img:/home/app/src/main/resources/static/img
+    working_dir: /home/app
+    command: sh -c "tail -f /dev/null"
+
 networks:
   webii:
     driver: bridge

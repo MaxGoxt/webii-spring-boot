@@ -10,6 +10,7 @@ import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -114,9 +116,19 @@ public class CursoController {
 	}
 
 	@GetMapping("/listar")
-	public ModelAndView listar() {
+	public ModelAndView listar(@RequestParam(value = "categoria", required = false) Optional<Integer> categoriaId) {
 		ModelAndView mv = new ModelAndView("/curso/listar");
-		List<Curso> lista = repository.findAll();
+		List<Curso> lista;
+
+		if (categoriaId.isPresent()) {
+			int id = categoriaId.get();
+			lista = repository.findByCategoriaId(id);
+			mv.addObject("filtroActivo", true);
+
+		} else {
+			lista = repository.findAll();
+		}
+
 		mv.addObject("cursos", lista);
 		return mv;
 	}
@@ -126,6 +138,20 @@ public class CursoController {
 		ModelAndView mv = new ModelAndView("curso/listar");
 		List<Curso> lista = repository.findCursoByNomeLike("%" + buscar + "%");
 		mv.addObject("cursos", lista);
+		return mv;
+	}
+
+	@GetMapping("/{id}")
+	public ModelAndView detalhes(@PathVariable(value = "id") int id) {
+
+		Curso curso = repository.findById(id)
+				.orElseThrow(() -> new ResponseStatusException(
+						HttpStatus.NOT_FOUND,
+						"Curso com ID " + id + " não encontrado."));
+
+		ModelAndView mv = new ModelAndView("curso/detalhes");
+
+		mv.addObject("curso", curso);
 		return mv;
 	}
 
